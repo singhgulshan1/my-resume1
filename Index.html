@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gulshan Kumar - Portfolio</title>
+    <style>
+        /* --- VARIABLES & RESET --- */
+        :root {
+            --bg-dark: #0f172a;      /* Slate 900 */
+            --bg-card: #1e293b;      /* Slate 800 */
+            --bg-card-hover: #334155; /* Slate 700 */
+            --text-main: #cbd5e1;    /* Slate 300 */
+            --text-white: #ffffff;
+            --text-muted: #94a3b8;   /* Slate 400 */
+            --accent: #06b6d4;       /* Cyan 500 */
+            --accent-glow: rgba(6, 182, 212, 0.2);
+            --accent-hover: #0891b2; /* Cyan 600 */
+            --border: #1e293b;       /* Slate 800 */
+            
+            /* Section Colors */
+            --blue-500: #3b82f6;
+            --purple-500: #a855f7;
+            --green-500: #22c55e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px; /* Offset for fixed header */
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        button { font-family: inherit; border: none; cursor: pointer; }
+
+        /* --- UTILITY CLASSES --- */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .section { padding: 80px 0; }
+        
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .justify-center { justify-content: center; }
+        .flex-col { flex-direction: column; }
+        .gap-2 { gap: 0.5rem; }
+        .gap-4 { gap: 1rem; }
+        .text-center { text-align: center; }
+        
+        .text-accent { color: var(--accent); }
+        .text-white { color: var(--text-white); }
+        .font-bold { font-weight: 700; }
+        
+        .hidden { display: none; }
+        
+        /* Grid System */
+        .grid { display: grid; gap: 2rem; }
+        @media (min-width: 768px) {
+            .md-grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+            .md-grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+            .md-grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+            .md-block { display: block; }
+            .md-hidden { display: none; }
+            .md-flex-row { flex-direction: row; }
+            .md-pl-12 { padding-left: 3rem; }
+            .md-text-4xl { font-size: 2.25rem; }
+            .md-text-7xl { font-size: 4.5rem; }
+        }
+
+        /* --- COMPONENTS --- */
+
+        /* Icons */
+        .icon {
+            width: 24px;
+            height: 24px;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+        }
+        .icon-sm { width: 16px; height: 16px; }
+        .icon-lg { width: 48px; height: 48px; }
+
+        /* Navbar */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 50;
+            background-color: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            height: 64px;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-white);
+        }
+
+        .logo-box {
+            width: 32px;
+            height: 32px;
+            background-color: var(--accent);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-btn {
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-main);
+            background: transparent;
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover { color: var(--text-white); background-color: var(--bg-card); }
+        .nav-btn.active { color: var(--accent); background-color: var(--bg-card); }
+
+        .btn-primary {
+            background-color: #0891b2; /* Darker Cyan */
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+        .btn-primary:hover { background-color: #0e7490; }
+
+        /* Mobile Menu */
+        .mobile-menu-btn { color: var(--text-main); background: none; }
+        .mobile-menu {
+            position: fixed;
+            top: 64px;
+            left: 0;
+            width: 100%;
+            background-color: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem;
+            display: none;
+        }
+        .mobile-menu.open { display: block; }
+        .mobile-link {
+            display: block;
+            padding: 12px;
+            color: var(--text-main);
+            font-weight: 500;
+            border-radius: 6px;
+        }
+        .mobile-link:hover { background-color: var(--bg-card-hover); color: white; }
+
+        /* Hero Section */
+        #home {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding-top: 64px;
+            overflow: hidden;
+        }
+        
+        /* Background Blobs */
+        .blob {
+            position: absolute;
+            width: 24rem;
+            height: 24rem;
+            border-radius: 50%;
+            filter: blur(128px);
+            opacity: 0.2;
+            z-index: 0;
+        }
+        .blob-1 { background-color: var(--accent); top: 25%; left: 25%; }
+        .blob-2 { background-color: var(--blue-500); bottom: 25%; right: 25%; }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            max-width: 800px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            margin-bottom: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--accent);
+            background-color: rgba(6, 182, 212, 0.1);
+            border: 1px solid rgba(6, 182, 212, 0.2);
+            border-radius: 9999px;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            line-height: 1.1;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 1.5rem;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(to right, var(--accent), var(--blue-500));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            font-weight: 300;
+            margin-bottom: 2rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-hero {
+            padding: 12px 32px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+        .btn-cyan {
+            background-color: var(--accent);
+            color: white;
+            box-shadow: 0 10px 15px -3px var(--accent-glow);
+        }
+        .btn-cyan:hover { background-color: var(--accent-hover); }
+        .btn-slate {
+            background-color: var(--bg-card);
+            color: white;
+            border: 1px solid var(--border);
+        }
+        .btn-slate:hover { background-color: var(--bg-card-hover); }
+
+        .stats-grid {
+            margin-top: 5rem;
+            padding-top: 2.5rem;
+            border-top: 1px solid var(--border);
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+        @media (min-width: 768px) { .stats-grid { grid-template-columns: repeat(4, 1fr); } }
+
+        /* About Section */
+        .bg-card-wrap {
+            background-color: rgba(30, 41, 59, 0.5); /* Slate 800 with opacity */
+        }
+        
+        .personal-card {
+            background-color: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+        }
+        .info-row:last-child { border-bottom: none; }
+
+        /* Experience Timeline */
+        .timeline-container {
+            position: relative;
+            border-left: 1px solid var(--border);
+            margin-left: 0.75rem;
+        }
+        @media (min-width: 768px) { .timeline-container { margin-left: 1.5rem; } }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 3rem;
+        }
+        @media (min-width: 768px) { .timeline-item { padding-left: 3rem; } }
+
+        .timeline-dot {
+            position: absolute;
+            left: -6px; /* -1.5px (half width) - 4.5px adjust */
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--accent);
+            box-shadow: 0 0 0 4px var(--bg-dark);
+        }
+
+        .job-card {
+            background-color: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(51, 65, 85, 0.5);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+        .job-card:hover {
+            border-color: rgba(6, 182, 212, 0.3);
+            background-color: var(--bg-card);
+        }
+
+        .job-header {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 1rem;
+        }
+        @media (min-width: 768px) {
+            .job-header { flex-direction: row; justify-content: space-between; align-items: center; }
+        }
+
+        .job-period {
+            background-color: var(--bg-dark);
+            color: var(--text-muted);
+            font-family: monospace;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+        @media (min-width: 768px) { .job-period { margin-top: 0; } }
+
+        /* Skills Cards */
+        .skill-card {
+            background-color: var(--bg-dark);
+            padding: 2rem;
+            border-radius: 1rem;
+            border: 1px solid var(--border);
+            transition: border-color 0.3s;
+        }
+        .skill-card:hover { border-color: var(--accent); }
+        .skill-card.blue:hover { border-color: var(--blue-500); }
+        .skill-card.purple:hover { border-color: var(--purple-500); }
+
+        .icon-box {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+        .icon-box.cyan { background-color: rgba(6, 182, 212, 0.1); color: var(--accent); }
+        .icon-box.blue { background-color: rgba(59, 130, 246, 0.1); color: var(--blue-500); }
+        .icon-box.purple { background-color: rgba(168, 85, 247, 0.1); color: var(--purple-500); }
+
+        .progress-container {
+            width: 100%;
+            background-color: var(--bg-card);
+            height: 8px;
+            border-radius: 9999px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+        .progress-bar { height: 100%; border-radius: 9999px; }
+        .bg-cyan { background-color: var(--accent-hover); }
+        .bg-blue { background-color: var(--blue-500); }
+        .bg-purple { background-color: var(--purple-500); }
+
+        /* Education */
+        .edu-item {
+            background-color: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            border-left: 4px solid var(--accent);
+            margin-bottom: 1rem;
+        }
+        .edu-item.purple { border-left-color: var(--purple-500); }
+
+        /* Contact */
+        .contact-section {
+            background: linear-gradient(to top, #000000, var(--bg-dark));
+        }
+        .contact-card {
+            background-color: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        .contact-card:hover { transform: translateY(-4px); background-color: var(--bg-card-hover); }
+
+        .contact-icon-circle {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #000;
+            border-top: 1px solid var(--border);
+            padding: 2rem 0;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        /* Print */
+        @media print {
+            nav, .hero-buttons, .blob, footer { display: none !important; }
+            body { background-color: white; color: black; }
+            .section { padding: 20px 0; }
+            .text-white { color: black; }
+            .text-muted { color: #555; }
+            .job-card, .skill-card, .edu-item, .contact-card {
+                border: 1px solid #ccc;
+                background: none;
+                color: black;
+                break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container justify-between">
+            <a href="#" class="nav-logo" onclick="scrollToSection('home'); return false;">
+                <div class="logo-box">
+                    <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
+                </div>
+                <span>GULSHAN.KUMAR<span class="text-accent">.IT SUPPORT ENGINEER</span></span>
+            </a>
+
+            <!-- Desktop Menu -->
+            <div class="nav-links md-block hidden">
+                <button onclick="scrollToSection('home')" class="nav-btn active" id="btn-home">Home</button>
+                <button onclick="scrollToSection('about')" class="nav-btn" id="btn-about">About</button>
+                <button onclick="scrollToSection('experience')" class="nav-btn" id="btn-experience">Experience</button>
+                <button onclick="scrollToSection('skills')" class="nav-btn" id="btn-skills">Skills</button>
+                <button onclick="scrollToSection('education')" class="nav-btn" id="btn-education">Education</button>
+                <button onclick="scrollToSection('contact')" class="nav-btn" id="btn-contact">Contact</button>
+                <button onclick="window.print()" class="btn-primary">
+                    <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    Resume
+                </button>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-btn md-hidden" onclick="toggleMenu()">
+                <svg class="icon" viewBox="0 0 24 24" id="menu-icon"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Dropdown -->
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="#" onclick="scrollToSection('home'); return false;" class="mobile-link">Home</a>
+        <a href="#" onclick="scrollToSection('about'); return false;" class="mobile-link">About</a>
+        <a href="#" onclick="scrollToSection('experience'); return false;" class="mobile-link">Experience</a>
+        <a href="#" onclick="scrollToSection('skills'); return false;" class="mobile-link">Skills</a>
+        <a href="#" onclick="scrollToSection('education'); return false;" class="mobile-link">Education</a>
+        <a href="#" onclick="scrollToSection('contact'); return false;" class="mobile-link">Contact</a>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+
+        <div class="container hero-content text-center">
+            <div class="status-badge">Available for Hire</div>
+            <h1 class="hero-title">
+                Hi, I'm <span class="gradient-text">Gulshan Kumar</span>
+            </h1>
+            <h2 class="hero-subtitle">
+                IT Support Engineer <br class="md-hidden">| Hardware & Networking Specialist
+            </h2>
+            <p style="font-size: 1.125rem; color: var(--text-muted); margin-bottom: 2.5rem; max-width: 42rem; margin-left: auto; margin-right: auto;">
+                Troubleshooting complex hardware ecosystems and ensuring seamless IT operations. 
+                Expert in chip-level diagnostics, BGA rework, and enterprise infrastructure support.
+            </p>
+            
+            <div class="hero-buttons">
+                <button onclick="scrollToSection('contact')" class="btn-hero btn-cyan">
+                    Contact Me
+                    <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
+                <button onclick="scrollToSection('experience')" class="btn-hero btn-slate">
+                    View Work
+                </button>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div>
+                    <div class="text-white font-bold" style="font-size: 1.875rem;">3+ Years</div>
+                    <div style="font-size: 0.875rem; color: var(--text-muted); text-transform: uppercase;">Experience</div>
+                </div>
+                <div>
+                    <div class="text-white font-bold" style="font-size: 1.875rem;">500+</div>
+                    <div style="font-size: 0.875rem; color: var(--text-muted); text-transform: uppercase;">Repairs</div>
+                </div>
+                <div>
+                    <div class="text-white font-bold" style="font-size: 1.875rem;">4</div>
+                    <div style="font-size: 0.875rem; color: var(--text-muted); text-transform: uppercase;">Certifications</div>
+                </div>
+                <div>
+                    <div class="text-white font-bold" style="font-size: 1.875rem;">50+</div>
+                    <div style="font-size: 0.875rem; color: var(--text-muted); text-transform: uppercase;">Projects</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section bg-card-wrap">
+        <div class="container">
+            <div class="grid md-grid-cols-2 items-center">
+                <div>
+                    <h3 style="color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;">About Me</h3>
+                    <h2 class="text-white font-bold md-text-4xl" style="font-size: 2rem; margin-bottom: 1.5rem;">Providing Robust IT Solutions</h2>
+                    <p class="text-muted" style="margin-bottom: 1.5rem; font-size: 1.125rem;">
+                        I am a knowledgeable and skilled Desktop Support Engineer with hands-on experience in troubleshooting hardware and software issues for various clients.
+                    </p>
+                    <p class="text-muted" style="margin-bottom: 1.5rem;">
+                        I have a strong background in laptop repairs and customer support, excelling in diagnostics, installation, and technical assistance. My effective communication skills ensure a professional and customer-friendly experience.
+                    </p>
+
+                    <div class="grid md-grid-cols-2" style="gap: 1rem; margin-top: 2rem;">
+                        <div class="flex" style="gap: 0.75rem;">
+                            <div style="padding: 0.5rem; background-color: rgba(6, 182, 212, 0.1); border-radius: 0.5rem; color: var(--accent);">
+                                <svg class="icon" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold">IT Infrastructure</h4>
+                                <p class="text-muted" style="font-size: 0.875rem;">Desktop, Laptop & Server maintenance</p>
+                            </div>
+                        </div>
+                        <div class="flex" style="gap: 0.75rem;">
+                            <div style="padding: 0.5rem; background-color: rgba(6, 182, 212, 0.1); border-radius: 0.5rem; color: var(--accent);">
+                                <svg class="icon" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line></svg>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold">Chip Level Repair</h4>
+                                <p class="text-muted" style="font-size: 0.875rem;">Motherboard & BGA Reballing</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="personal-card">
+                    <h4 class="text-white font-bold" style="font-size: 1.25rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem;">Personal Details</h4>
+                    <ul style="display: flex; flex-direction: column; gap: 1rem;">
+                        <li class="info-row">
+                            <span class="text-muted">Location</span>
+                            <span class="text-white">Noida, Sector 44, Uttar Pradesh</span>
+                        </li>
+                        <li class="info-row">
+                            <span class="text-muted">Languages</span>
+                            <span class="text-white">Hindi, Bhojpuri, English</span>
+                        </li>
+                        <li class="info-row">
+                            <span class="text-muted">Email</span>
+                            <span class="text-white">singhgulshansidharth@gmail.com</span>
+                        </li>
+                        <li class="info-row">
+                            <span class="text-muted">Phone</span>
+                            <span class="text-white">+91 6206389913</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="section">
+        <div class="container">
+            <div class="text-center" style="margin-bottom: 4rem;">
+                <h3 style="color: var(--accent); font-weight: 600; text-transform: uppercase; margin-bottom: 0.5rem;">My Journey</h3>
+                <h2 class="text-white font-bold md-text-4xl" style="font-size: 2rem;">Professional Experience</h2>
+            </div>
+
+            <div class="timeline-container">
+                <!-- Job 1 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="job-card">
+                        <div class="job-header">
+                            <div>
+                                <h3 class="text-white font-bold" style="font-size: 1.25rem;">Desktop Support Engineer</h3>
+                                <div class="text-muted" style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.25rem;">
+                                    <svg class="icon icon-sm text-accent" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+                                    NetCloud Global Services
+                                </div>
+                            </div>
+                            <span class="job-period">July 2024 - Present</span>
+                        </div>
+                        <ul style="color: var(--text-muted); font-size: 0.875rem;">
+                            <li style="margin-bottom: 0.5rem;">• Respond to and resolve IT support requests via phone, email, or ticketing systems.</li>
+                            <li style="margin-bottom: 0.5rem;">• Diagnose and troubleshoot hardware, software, and network issues.</li>
+                            <li style="margin-bottom: 0.5rem;">• Assist in setting up and maintaining workstations and office IT infrastructure.</li>
+                            <li>• Support basic network troubleshooting (Wi-Fi, LAN, VPN issues) and user account management.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Job 2 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="job-card">
+                        <div class="job-header">
+                            <div>
+                                <h3 class="text-white font-bold" style="font-size: 1.25rem;">Dell Field Engineer</h3>
+                                <div class="text-muted" style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.25rem;">
+                                    <svg class="icon icon-sm text-accent" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+                                    TVS E
+                                </div>
+                            </div>
+                            <span class="job-period">April 2023 - June 2024</span>
+                        </div>
+                        <ul style="color: var(--text-muted); font-size: 0.875rem;">
+                            <li style="margin-bottom: 0.5rem;">• Provided on-site hardware diagnostics and repairs for Dell desktops, laptops, and servers.</li>
+                            <li style="margin-bottom: 0.5rem;">• Replaced faulty components: hard drives, RAM, motherboards, and power supplies.</li>
+                            <li>• Communicated effectively with customers to resolve technical issues professionally.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Job 3 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="job-card">
+                        <div class="job-header">
+                            <div>
+                                <h3 class="text-white font-bold" style="font-size: 1.25rem;">Card Level Engineer</h3>
+                                <div class="text-muted" style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.25rem;">
+                                    <svg class="icon icon-sm text-accent" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+                                    I.T SERVICE CHAPRA
+                                </div>
+                            </div>
+                            <span class="job-period">Dec 2021 - June 2022</span>
+                        </div>
+                        <ul style="color: var(--text-muted); font-size: 0.875rem;">
+                            <li style="margin-bottom: 0.5rem;">• Diagnosed and repaired laptop motherboards, power circuits, and chip-level components.</li>
+                            <li style="margin-bottom: 0.5rem;">• Performed BGA (Ball Grid Array) rework and reballing for GPU and chipset repairs.</li>
+                            <li>• Worked with BIOS programming, EEPROM flashing, and firmware recovery.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="section" style="background-color: rgba(30, 41, 59, 0.3);">
+        <div class="container">
+            <div class="text-center" style="margin-bottom: 4rem;">
+                <h3 style="color: var(--accent); font-weight: 600; text-transform: uppercase; margin-bottom: 0.5rem;">Expertise</h3>
+                <h2 class="text-white font-bold md-text-4xl" style="font-size: 2rem;">Technical Skills</h2>
+            </div>
+
+            <div class="grid md-grid-cols-3">
+                <!-- Hardware -->
+                
+
+                <!-- IT Support -->
+                <div class="skill-card blue">
+                    <div class="icon-box blue">
+                        <svg class="icon" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                    </div>
+                    <h3 class="text-white font-bold" style="font-size: 1.25rem; margin-bottom: 1rem;">IT Support</h3>
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div>
+                            <div class="flex justify-between" style="font-size: 0.875rem; color: var(--text-muted);">
+                                <span>Windows OS / Server 2016 to 2022</span>
+                            </div>
+                            <div class="progress-container"><div class="progress-bar bg-blue" style="width: 90%;"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between" style="font-size: 0.875rem; color: var(--text-muted);">
+                                <span>Group Policy (GPO) Basics</span>
+                            </div>
+                            <div class="progress-container"><div class="progress-bar bg-blue" style="width: 90%;"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between" style="font-size: 0.875rem; color: var(--text-muted);">
+                                <span>Software Installation & Troubleshooting</span>
+                            </div>
+                            <div class="progress-container"><div class="progress-bar bg-blue" style="width: 90%;"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between" style="font-size: 0.875rem; color: var(--text-muted);">
+                                <span>Active Directory (User & Group Management)</span>
+                            </div>
+                            <div class="progress-container"><div class="progress-bar bg-blue" style="width: 90%;"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between" style="font-size: 0.875rem; color: var(--text-muted);">
+                                <span>Remote Support (AnyDesk / TeamViewer)</span>
+                            </div>
+                            <div class="progress-container"><div class="progress-bar bg-blue" style="width: 90%;"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between" style="font-size: 0.875rem; color: var(--text-muted);">
+                                <span>Outlook Configuration</span>
+                            </div>
+                            <div class="progress-container"><div class="progress-bar bg-blue" style="width: 85%;"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between" style="font-size: 0.875rem; color: var(--text-muted);">
+                                <span>BIOS & Firmware</span>
+                            </div>
+                            <div class="progress-container"><div class="progress-bar bg-blue" style="width: 80%;"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Networking -->
+                <div class="skill-card purple">
+                    <div class="icon-box purple">
+                        <svg class="icon" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+                    </div>
+                    <h3 class="text-white font-bold" style="font-size: 1.25rem; margin-bottom: 1rem;">Networking</h3>
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div>
+                            <div class="flex justify-between" style="font-size: 0.875rem; color: var(--text-muted);">
+                                <span>IP Addressing (Static / DHCP)</span>
+                            </div>
+                            <div class="progress-container"><div class="progress-bar bg-purple" style="width: 85%;"></div></div>
+                        </div>
+
+                         <div>
+                            <div class="flex justify-between" style="font-size: 0.875rem; color: var(--text-muted);">
+                                <span>Router & Switch Configuration</span>
+                            </div>
+                            <div class="progress-container"><div class="progress-bar bg-purple" style="width: 85%;"></div></div>
+                        </div>
+                         <div>
+                            <div class="flex justify-between" style="font-size: 0.875rem; color: var(--text-muted);">
+                                <span>Network Troubleshooting (Ping, Tracert)</span>
+                            </div>
+                            <div class="progress-container"><div class="progress-bar bg-purple" style="width: 85%;"></div></div>
+                        </div>
+                        <div>
+                           <div>
+                            <div class="flex justify-between" style="font-size: 0.875rem; color: var(--text-muted);">
+                                <span>Wi-Fi Setup & Security</span>
+                            </div>
+                            <div class="progress-container"><div class="progress-bar bg-purple" style="width: 85%;"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between" style="font-size: 0.875rem; color: var(--text-muted);">
+                                <span>NAS / Shared Folder Setup</span>
+                            </div>
+                            <div class="progress-container"><div class="progress-bar bg-purple" style="width: 85%;"></div></div>
+                        </div>
+                            <div class="flex justify-between" style="font-size: 0.875rem; color: var(--text-muted);">
+                                <span>CCTV Installation</span>
+                            </div>
+                            <div class="progress-container"><div class="progress-bar bg-purple" style="width: 90%;"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between" style="font-size: 0.875rem; color: var(--text-muted);">
+                                <span>Printer Networking</span>
+                            </div>
+                            <div class="progress-container"><div class="progress-bar bg-purple" style="width: 80%;"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cloud & Learning -->
+                <div class="skill-card purple">
+                    <div class="icon-box purple">
+                        <svg class="icon" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+                    </div>
+                    <h3 class="text-white font-bold" style="font-size: 1.25rem; margin-bottom: 1rem;">Cloud & Learning</h3>
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div>
+                            <div class="flex justify-between" style="font-size: 0.875rem; color: var(--text-muted);">
+                                <span>Microsoft Azure Basics</span>
+                            </div>
+                            <div class="progress-container"><div class="progress-bar bg-purple" style="width: 85%;"></div></div>
+                        </div>
+
+                         <div>
+                            <div class="flex justify-between" style="font-size: 0.875rem; color: var(--text-muted);">
+                                <span>Azure VM (Basic Understanding)</span>
+                            </div>
+                            <div class="progress-container"><div class="progress-bar bg-purple" style="width: 85%;"></div></div>
+                        </div>
+                         <div>
+                            <div class="flex justify-between" style="font-size: 0.875rem; color: var(--text-muted);">
+                                <span>Cloud Networking Fundamentals</span>
+                            </div>
+                            <div class="progress-container"><div class="progress-bar bg-purple" style="width: 85%;"></div></div>
+                        </div>
+                        <div>
+                           <div>
+                            <div class="flex justify-between" style="font-size: 0.875rem; color: var(--text-muted);">
+                                <span>Backup & Recovery Concepts</span>
+                            </div>
+                            <div class="progress-container"><div class="progress-bar bg-purple" style="width: 85%;"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between" style="font-size: 0.875rem; color: var(--text-muted);">
+                                <span>Antivirus & Endpoint Security</span>
+                            </div>
+                            <div class="progress-container"><div class="progress-bar bg-purple" style="width: 85%;"></div></div>
+                        </div>
+                            <div class="flex justify-between" style="font-size: 0.875rem; color: var(--text-muted);">
+                                <span>Data Backup & Restore</span>
+                            </div>
+                            <div class="progress-container"><div class="progress-bar bg-purple" style="width: 90%;"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between" style="font-size: 0.875rem; color: var(--text-muted);">
+                                <span>User Access Control</span>
+                            </div>
+                            <div class="progress-container"><div class="progress-bar bg-purple" style="width: 80%;"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between" style="font-size: 0.875rem; color: var(--text-muted);">
+                                <span>Basic Firewall Concepts</span>
+                            </div>
+                            <div class="progress-container"><div class="progress-bar bg-purple" style="width: 80%;"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="section">
+        <div class="container">
+            <div class="grid md-grid-cols-2">
+                <div>
+                    <div class="flex items-center" style="gap: 0.75rem; margin-bottom: 2rem;">
+                        <svg class="icon text-accent" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+                        <h2 class="text-white font-bold" style="font-size: 1.5rem;">Education</h2>
+                    </div>
+                    <div>
+                        <div class="edu-item">
+                            <h3 class="text-white font-bold" style="font-size: 1.125rem;">Bachelor of Computer Applications</h3>
+                            <p class="text-accent">Manipal University Jaipur</p>
+                            <p class="text-muted" style="font-size: 0.875rem; margin-top: 0.25rem;">2020 - 2023 | 89%</p>
+                        </div>
+                        <div class="edu-item">
+                            <h3 class="text-white font-bold" style="font-size: 1.125rem;">12th Standard</h3>
+                            <p class="text-accent">BSEB PATNA</p>
+                            <p class="text-muted" style="font-size: 0.875rem; margin-top: 0.25rem;">2019 | 72%</p>
+                        </div>
+                        <div class="edu-item">
+                            <h3 class="text-white font-bold" style="font-size: 1.125rem;">10th Standard</h3>
+                            <p class="text-accent">BSEB PATNA</p>
+                            <p class="text-muted" style="font-size: 0.875rem; margin-top: 0.25rem;">2016 | 48%</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="flex items-center" style="gap: 0.75rem; margin-bottom: 2rem;">
+                        <svg class="icon text-accent" viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+                        <h2 class="text-white font-bold" style="font-size: 1.5rem;">Certifications & Achievements</h2>
+                    </div>
+                    <div>
+                        <div class="edu-item purple">
+                            <h3 class="text-white font-bold" style="font-size: 1.125rem;">Laptop + Smart TV Repair Course</h3>
+                            <p style="color: var(--purple-500);">AK info</p>
+                            <p class="text-muted" style="font-size: 0.875rem; margin-top: 0.25rem;">2020 | Grade A</p>
+                            <p class="text-muted" style="font-size: 0.875rem; margin-top: 0.5rem;">Specialized training in chip-level diagnostics and component replacement.</p>
+                        </div>
+
+                        <div style="background-color: rgba(30, 41, 59, 0.5); padding: 1.5rem; border-radius: 0.5rem; border: 1px solid var(--border); margin-top: 1rem;">
+                            <h3 class="text-white font-bold" style="font-size: 1.125rem; margin-bottom: 0.5rem;">Hobbies</h3>
+                            <div class="flex" style="gap: 0.5rem;">
+                                <span style="background-color: var(--bg-card-hover); padding: 4px 12px; border-radius: 9999px; font-size: 0.875rem; color: var(--text-main);">Kabbadi</span>
+                                <span style="background-color: var(--bg-card-hover); padding: 4px 12px; border-radius: 9999px; font-size: 0.875rem; color: var(--text-main);">Book Reading</span>
+                                <span style="background-color: var(--bg-card-hover); padding: 4px 12px; border-radius: 9999px; font-size: 0.875rem; color: var(--text-main);">Electronics</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section contact-section">
+        <div class="container text-center" style="max-width: 56rem;">
+            <h2 class="text-white font-bold md-text-4xl" style="font-size: 2rem; margin-bottom: 1.5rem;">Let's Connect</h2>
+            <p class="text-muted" style="margin-bottom: 3rem; font-size: 1.125rem;">
+                Currently available for new opportunities in Desktop Support and Hardware Engineering.
+            </p>
+
+            <div class="grid md-grid-cols-3">
+                <a href="mailto:singhgulshansidharth@gmail.com" class="contact-card">
+                    <div class="contact-icon-circle" style="background-color: rgba(6, 182, 212, 0.1); color: var(--accent);">
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                    </div>
+                    <h3 class="text-white font-bold" style="margin-bottom: 0.25rem;">Email Me</h3>
+                    <p class="text-muted" style="font-size: 0.875rem; word-break: break-all;">singhgulshansidharth@gmail.com</p>
+                </a>
+
+                <a href="tel:+916206389913" class="contact-card">
+                    <div class="contact-icon-circle" style="background-color: rgba(34, 197, 94, 0.1); color: var(--green-500);">
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                    </div>
+                    <h3 class="text-white font-bold" style="margin-bottom: 0.25rem;">Call Me</h3>
+                    <p class="text-muted" style="font-size: 0.875rem;">+91 6206389913</p>
+                </a>
+
+                <div class="contact-card">
+                    <div class="contact-icon-circle" style="background-color: rgba(168, 85, 247, 0.1); color: var(--purple-500);">
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    </div>
+                    <h3 class="text-white font-bold" style="margin-bottom: 0.25rem;">Location</h3>
+                    <p class="text-muted" style="font-size: 0.875rem;">Noida, Sector 44, Uttar Pradesh</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container text-center">
+            <p style="margin-bottom: 0.5rem;">© <span id="year"></span> Gulshan Kumar. All rights reserved.</p>
+            <div class="flex justify-center" style="gap: 1rem;">
+                <span style="color: var(--text-muted);">Desktop Support</span>
+                <span>•</span>
+                <span style="color: var(--text-muted);">Hardware Engineer</span>
+                <span>•</span>
+                <span style="color: var(--text-muted);">Network Admin</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Interactions -->
+    <script>
+        // Set current year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Mobile Menu Toggle
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
+            
+            if (menu.classList.contains('open')) {
+                menu.classList.remove('open');
+                // Change icon back to hamburger (simplified)
+                icon.innerHTML = '<line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line>';
+            } else {
+                menu.classList.add('open');
+                // Change icon to X
+                icon.innerHTML = '<line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>';
+            }
+        }
+
+        // Smooth Scrolling and Close Menu
+        function scrollToSection(id) {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
+            
+            // Close mobile menu if open
+            if (menu.classList.contains('open')) {
+                menu.classList.remove('open');
+                icon.innerHTML = '<line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line>';
+            }
+
+            const element = document.getElementById(id);
+            if (element) {
+                // Adjust for fixed header
+                const headerOffset = 80;
+                const elementPosition = element.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth"
+                });
+            }
+        }
+
+        // Scroll Spy to highlight active menu item
+        window.addEventListener('scroll', () => {
+            const sections = ['home', 'about', 'experience', 'skills', 'education', 'contact'];
+            const scrollY = window.pageYOffset;
+            
+            sections.forEach(current => {
+                const sectionHeight = document.getElementById(current).offsetHeight;
+                const sectionTop = document.getElementById(current).offsetTop - 100; // Offset for better triggering
+                const sectionId = current;
+                
+                if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+                    document.querySelectorAll('.nav-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    const activeBtn = document.getElementById('btn-' + sectionId);
+                    if (activeBtn) activeBtn.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
